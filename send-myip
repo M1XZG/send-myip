@@ -11,7 +11,7 @@
 # You can also set the TO email from the command line as the second argument
 
 # EDIT THIS NEXT LINE
-EMAILTO=""
+EMAILTO="rmckenzi@rpmdp.com"
 
 	if [ "$EMAILTO" = "" ];then
 		echo ""
@@ -23,9 +23,10 @@ EMAILTO=""
 
 HOSTNAME=`hostname`
 SUBJECT="Your RPi ($HOSTNAME) is ready..."
+BODY=
 
 # If you don't intend to use SMS you should set SMSTO to NOSMS, this will prevent the sendsms function to exit.
-SMSTO=""
+SMSTO="NOSMS"
 
 	if [ "$SMSTO" = "" ];then
 		echo ""
@@ -39,6 +40,20 @@ SMSTO=""
 ###################################################################################################
 # Functions start here
 ###################################################################################################
+
+
+function ipinfo {
+
+	# Internal IP(s)
+	MYIPTMP=`getipinfo`
+	MYIP="Int IP: $MYIPTMP"
+
+	# External facing IP info
+	MYEXTIPTMP=`wget http://ipecho.net/plain -O - -q ; echo`
+	MYEXTIP="Ext IP: $MYEXTIPTMP"
+
+}
+	
 
 function getipinfo {
 
@@ -57,12 +72,9 @@ function sendsms {
 		exit 1
 	fi
 
-	MYIP=`getipinfo`
-
 	# For info about the sms script I'm calling check out my blog:
 	# http://www.uk-experience.com/2012/11/01/sending-sms-from-the-command-line/
-	sms $SMSTO "Your RPi ($HOSTNAME) says, my IP is ... $MYIP"
-
+	sms $SMSTO "Your RPi ($HOSTNAME) says, my IP is ... $MYIP / $MYEXTIP"
 }
 
 
@@ -70,8 +82,6 @@ function email {
 
 # call the checkemail function to validate we have an email address to send to
 checkemail
-
-MYIP=`getipinfo`
 
 # Do not indent these lines for script prettiness, it'll break the heardoc
 
@@ -82,14 +92,10 @@ Subject: $SUBJECT
 Connect to your RPi ($HOSTNAME) with ...
 
 $MYIP
+$MYEXTIP
 
 EOF
 
-}
-
-function all {
-	email
-	sendsms
 }
 
 function help {
@@ -107,7 +113,11 @@ You must provide 1 argment on the command line.
 
 		--sendsms	| sendsms	| SENDSMS
 		--email		| email		| EMAIL
-		--all		| all		| ALL
+		--all		| all		| ALL 
+
+		This option is only for testing or local use and is not included in the --all option
+		--display	| display	| DISPLAY
+
 		--help		| help		| HELP | (nothing at all)
 
 	ie:	$0 --sendsms
@@ -148,15 +158,27 @@ function checkemail {
 case "$1" in
 
 	--sendsms|sendsms|SENDSMS )
+		ipinfo
 		sendsms
 	;;
 
 	--email|email|EMAIL )
+		ipinfo
 		email
 	;;
 
 	--all|all|ALL )
-		all
+		ipinfo
+		email
+		sendsms
+	;;
+
+	--display|display|DISPLAY )
+		ipinfo
+		echo "---------------------------------------------------"
+		echo "$MYIP"
+		echo "$MYEXTIP"
+		echo "---------------------------------------------------"
 	;;
 
 	* )
