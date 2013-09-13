@@ -6,8 +6,6 @@ Raspberry Pi Script that sends out it's IP at boot time, helpful for DHCP condit
 
 	/usr/local/bin/send-myip --help
 
-	You must provide 1 argment on the command line.
-
         sendsms - This will ONLY send an sms to whoever you've set in the variables
         email   - This will ONLY send an email to whoever you've set in the variables
         all     - Send both Email and SMS
@@ -18,17 +16,18 @@ Raspberry Pi Script that sends out it's IP at boot time, helpful for DHCP condit
                 --sendsms       | sendsms       | SENDSMS
                 --email         | email         | EMAIL
                 --all           | all           | ALL
+
+                This option is only for testing or local use and is not included in the --all option
+                --display       | display       | DISPLAY
+
                 --help          | help          | HELP | (nothing at all)
 
-        ie:     /usr/local/bin/send-myip --sendsms
-                /usr/local/bin/send-myip EMAIL
-                /usr/local/bin/send-myip --help
-
-
+        ie:     $0 --sendsms
+                $0 EMAIL
+                $0 --help
 
 
 TODO:
 ============
 
-- Add External IP detection
 

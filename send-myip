@@ -11,7 +11,7 @@
 # You can also set the TO email from the command line as the second argument
 
 # EDIT THIS NEXT LINE
-EMAILTO="rmckenzi@rpmdp.com"
+EMAILTO=""
 
 	if [ "$EMAILTO" = "" ];then
 		echo ""
@@ -26,7 +26,7 @@ SUBJECT="Your RPi ($HOSTNAME) is ready..."
 BODY=
 
 # If you don't intend to use SMS you should set SMSTO to NOSMS, this will prevent the sendsms function to exit.
-SMSTO="NOSMS"
+SMSTO=""
 
 	if [ "$SMSTO" = "" ];then
 		echo ""
