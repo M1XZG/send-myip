@@ -4,9 +4,9 @@ Send-MyIP
 Raspberry Pi Script that sends out it's IP at boot time, helpful for DHCP conditions.
 
 
-/usr/local/bin/send-myip --help
+	/usr/local/bin/send-myip --help
 
-You must provide 1 argment on the command line.
+	You must provide 1 argment on the command line.
 
         sendsms - This will ONLY send an sms to whoever you've set in the variables
         email   - This will ONLY send an email to whoever you've set in the variables
